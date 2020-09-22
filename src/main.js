@@ -13,8 +13,9 @@ Vue.use(VueMaterial)
 Vue.use(VueRouter);
 
 Vue.config.productionTip = false
+Vue.prototype.$restip = 'http://localhost:8070'
 
 new Vue({
   render: h => h(App),
-  router,
+  router
 }).$mount('#app')

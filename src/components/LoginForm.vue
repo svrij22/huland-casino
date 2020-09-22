@@ -14,7 +14,8 @@
                         <span class="sm">Password</span>
                         <input>
                     </div>
-                    <button>Log in</button>
+                    <span class="sm">{{loginmsg}}{{$restip}}</span>
+                    <button @click="login">Log in</button>
                 </div>
             </div>
         </div>
@@ -22,8 +23,22 @@
 </template>
 
 <script>
+    import axios from 'axios';
+
     export default {
-        name: "LoginForm"
+        name: "LoginForm",
+        data: function () {
+            return {
+                loginmsg: ''
+            }
+        },
+        methods: {
+            login(){
+                axios.post(this.$restip + "/services/register", {
+
+                })
+            }
+        }
     }
 </script>
 
