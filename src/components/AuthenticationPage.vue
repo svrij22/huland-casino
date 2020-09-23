@@ -1,6 +1,7 @@
 <template>
     <div class="content">
         <div class="bg"/>
+        <canvas id="bg-canvas"></canvas>
         <div class="container">
             <h3>
                 HULAND CASINO
@@ -16,20 +17,28 @@
 </template>
 
 <script>
+    /* eslint-disable */
+
     import RegisterForm from "@/components/RegisterForm";
     import LoginForm from "@/components/LoginForm";
+    import * as raining from "../assets/raining";
+
     export default {
         name: "AuthenticationPage",
         components: {LoginForm, RegisterForm},
         data: function (){
             return {
-                authType: 'login'
+                authType: 'login',
+                images: []
             }
         },
         methods: {
             switchAuth(){
                 this.authType = (this.authType == "login") ? "register" : "login";
-            }
+            },
+        },
+        mounted(){
+            raining.setup(this.images);
         }
     }
 </script>
@@ -130,6 +139,16 @@
         background-position: center;
         background-repeat: no-repeat;
         background-size: cover;
+    }
+
+    #bg-canvas{
+        position: fixed;
+        left: 0;
+        right: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 1;
+        opacity: 0.5;
     }
 
     h3{

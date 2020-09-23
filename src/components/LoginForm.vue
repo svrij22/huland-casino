@@ -37,8 +37,8 @@
                     }
                 }).then((res) => {
                     this.loginmsg = "Logged in!"
-                    localStorage.setItem("logintoken", res.headers.Authorization)
-                    console.log(res.headers)
+                    localStorage.setItem("logintoken", res.headers.authorization)
+                    this.$router.push("/chips")
                 }).catch((error) => {
                     this.loginmsg = error.message;
                 })

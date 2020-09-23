@@ -14,7 +14,7 @@
             </div>
         </div>
         <span class="sm">{{loginmsg}}</span>
-        <button @click="register">Log in</button>
+        <button @click="register">Register</button>
     </div>
 </template>
 
