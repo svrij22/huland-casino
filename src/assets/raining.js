@@ -8,10 +8,8 @@ var fallingDrops = [];
 let images = ['2C', '3D', "5D", "6S"]
 
 function draw() {
-
     let canvas = document.getElementById('bg-canvas');
-    const context = canvas.getContext('2d');
-    context.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
     canvas.width  = window.innerWidth;
     canvas.height = window.innerHeight;
 
@@ -22,7 +20,7 @@ function draw() {
         ctx.drawImage (fallingDrops[i].image, fallingDrops[i].x, fallingDrops[i].y, w, h); //The rain drop
         fallingDrops[i].y += fallingDrops[i].speed; //Set the falling speed
         if (fallingDrops[i].y > canvas.height) {  //Repeat the raindrop when it falls out of view
-            fallingDrops[i].y = -25 //Account for the image size
+            fallingDrops[i].y = -80 //Account for the image size
             fallingDrops[i].x = Math.random() * canvas.width;    //Make it appear randomly along the width
         }
     }
