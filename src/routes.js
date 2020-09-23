@@ -1,8 +1,8 @@
 import VueRouter from "vue-router";
-import LoginForm from "@/components/LoginForm";
+import AuthenticationPage from "@/components/AuthenticationPage";
 
 export default new VueRouter({
     routes: [
-        {path: '/', component: LoginForm}
+        {path: '/', component: AuthenticationPage}
     ]
 })
