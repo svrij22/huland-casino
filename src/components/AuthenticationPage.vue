@@ -7,7 +7,7 @@
                 HULAND CASINO
             </h3>
             <div class="aligner">
-                <register-form v-if="authType == 'login'"/>
+                <register-form v-if="authType == 'register'"/>
                 <login-form v-else/>
                 <span class="sm cursor" v-if="authType == 'register'" @click="switchAuth">New here? Register now</span>
                 <span class="sm cursor" v-else @click="switchAuth">Already have an account? Login here</span>
@@ -21,7 +21,6 @@
 
     import RegisterForm from "@/components/RegisterForm";
     import LoginForm from "@/components/LoginForm";
-    import * as raining from "../assets/raining";
 
     export default {
         name: "AuthenticationPage",
@@ -38,7 +37,7 @@
             },
         },
         mounted(){
-            raining.setup(this.images);
+            this.$raining.setup(this.images);
         }
     }
 </script>

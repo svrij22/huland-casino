@@ -1,7 +1,8 @@
 <template>
-    <div>
+    <div style="height: 95%;">
         <header-component :userdata="data"/>
-        <game-component :gamedata="game"/>
+        <game-component v-if="!isBetting" v-on:betting="setBetting" :gamedata="game"/>
+        <bet-component v-else v-on:betting="setBetting" :gamedata="game"/>
     </div>
 </template>
 
@@ -9,14 +10,17 @@
     import axios from "axios";
     import HeaderComponent from "@/components/HeaderComponent";
     import GameComponent from "@/components/GameComponent";
+    import BetComponent from "@/components/BetComponent";
+
     export default {
         name: "Main",
-        components: {GameComponent, HeaderComponent},
+        components: {BetComponent, GameComponent, HeaderComponent},
         data: function () {
             return {
                 hasToken: false,
                 data: {},
-                game: {}
+                game: {},
+                isBetting: true
             }
         },
         methods: {
@@ -43,7 +47,15 @@
                     }
                 }).then((res) => {
                     this.game = res.data;
+                    this.isBetting = false;
+                }).catch(() =>{
+                    this.isBetting = true;
                 })
+            },
+            setBetting(value){
+                this.checkBearerAndUpdateToken()
+                this.getGameState();
+                this.isBetting = value
             }
         },
         mounted(){

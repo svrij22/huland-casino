@@ -2,8 +2,9 @@
 var ctx;
 var x = 0;
 var y = 0;
-var noOfDrops = 50;
+var noOfDrops = 55;
 var fallingDrops = [];
+var interval;
 
 let images = ['2C', '3D', "5D", "6S"]
 
@@ -15,8 +16,8 @@ function draw() {
 
     for (var i=0; i< noOfDrops; i++)
     {
-        let w = 50;
-        let h = 90;
+        let w = 80;
+        let h = 115;
         ctx.drawImage (fallingDrops[i].image, fallingDrops[i].x, fallingDrops[i].y, w, h); //The rain drop
         fallingDrops[i].y += fallingDrops[i].speed; //Set the falling speed
         if (fallingDrops[i].y > canvas.height) {  //Repeat the raindrop when it falls out of view
@@ -44,7 +45,7 @@ export function setup(){
         console.log("test")
 
         ctx = canvas.getContext('2d');
-        setInterval(draw, 30);
+        interval = setInterval(draw, 30);
 
         for (var i = 0; i < noOfDrops; i++) {
             var fallingDr = {};
@@ -59,5 +60,8 @@ export function setup(){
     }
 }
 
+export function kill() {
+    clearInterval(interval);
+}
 
 

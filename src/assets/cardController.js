@@ -3,17 +3,17 @@ export function getCard(rank, suit, isVisible) {
     let suit_c = suit;
 
     switch (rank) {
-        case 'jack': rank_c = 'J'; break;
-        case 'queen': rank_c = 'Q'; break;
-        case 'king': rank_c = 'K'; break;
-        case 'ace': rank_c = 'A'; break;
+        case 'Jack': rank_c = 'J'; break;
+        case 'Queen': rank_c = 'Q'; break;
+        case 'King': rank_c = 'K'; break;
+        case 'Ace': rank_c = 'A'; break;
     }
 
     switch (suit) {
-        case 'clubs': suit_c = 'C'; break;
-        case 'spades': suit_c = 'S'; break;
-        case 'hearts': suit_c = 'H'; break;
-        case 'diamonds': suit_c = 'D'; break;
+        case 'Clubs': suit_c = 'C'; break;
+        case 'Spades': suit_c = 'S'; break;
+        case 'Hearts': suit_c = 'H'; break;
+        case 'Diamonds': suit_c = 'D'; break;
     }
 
     if (!isVisible) {

@@ -6,7 +6,12 @@
 
 <script>
     export default {
-        name: 'App'
+        name: 'App',
+        watch:{
+            $route (){
+                this.$raining.kill();
+            }
+        }
     }
 </script>
 
