@@ -3,7 +3,7 @@
         <div class="bet-container">
             <img src="../assets/chip.png"/>
             <span>Place your bet:</span>
-            <input v-model="bet">
+            <input :class="{red: !canBet}" type="number" :max="userdata.chips" v-model="bet">
             <button @click="doBet">Place bet</button>
         </div>
     </div>
@@ -14,13 +14,15 @@
 
     export default {
         name: "BetComponent",
+        props: ['userdata'],
         data: function () {
             return {
-                bet: 0
+                bet: 1
             }
         },
         methods: {
             doBet(){
+                if (!this.canBet) return false;
                 axios({
                     url: this.$restip + "/game/bet",
                     method: 'post',
@@ -33,6 +35,17 @@
                 }).then(() => {
                     this.$emit('betting', false)
                 })
+            },
+            isInt(n) {
+                return n % 1 === 0;
+            }
+        },
+        computed: {
+            canBet(){
+                return this.isInt(this.bet) &&
+                    !(this.bet < 0) &&
+                    (Number(this.bet) == this.bet) &&
+                    (this.bet <= Number(this.userdata.chips))
             }
         }
     }
@@ -64,6 +77,11 @@
             display: inline-block;
             border: 1px solid #ccc;
             box-sizing: border-box;
+
+        }
+
+        & .red{
+            background-color: #e0cbcb;
         }
 
         & button{

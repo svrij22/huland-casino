@@ -2,7 +2,7 @@
     <div style="height: 95%;">
         <header-component :userdata="data"/>
         <game-component v-if="!isBetting" v-on:betting="setBetting" :gamedata="game"/>
-        <bet-component v-else v-on:betting="setBetting" :gamedata="game"/>
+        <bet-component v-else v-on:betting="setBetting" :userdata="data"/>
     </div>
 </template>
 
@@ -40,7 +40,7 @@
             },
             getGameState(){
                 axios({
-                    url: this.$restip + "/game/state",
+                    url: this.$restip + "/game/state/",
                     method: 'get',
                     headers: {
                         Authorization: localStorage.getItem("logintoken")

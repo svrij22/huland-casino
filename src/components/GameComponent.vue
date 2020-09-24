@@ -34,7 +34,7 @@
             },
             playMove(move){
                 axios({
-                    url: this.$restip + "/game/" + move,
+                    url: this.$restip + "/game/state/" + move,
                     method: 'post',
                     headers: {
                         Authorization: localStorage.getItem("logintoken")
@@ -81,6 +81,7 @@
     }
 
     .game-container{
+        padding-top: 40px;
         display: flex;
         flex-direction: column;
         justify-content: space-between;
