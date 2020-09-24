@@ -5,6 +5,7 @@
             <span>Place your bet:</span>
             <input :class="{red: !canBet}" type="number" :max="userdata.chips" v-model="bet">
             <button @click="doBet">Place bet</button>
+            <button @click="getChips" v-if="Number(userdata.chips) < 300" class="coloured">New chips</button>
         </div>
     </div>
 </template>
@@ -38,6 +39,18 @@
             },
             isInt(n) {
                 return n % 1 === 0;
+            },
+            getChips(){
+                axios({
+                    url: this.$restip + "/chips/renew",
+                    method: 'get',
+                    headers: {
+                        Authorization: localStorage.getItem("logintoken")
+                    }
+                }).then(() => {
+                    /*Forces a reload*/
+                    this.$emit('betting', true)
+                })
             }
         },
         computed: {
@@ -55,6 +68,7 @@
     .container{
         display: flex;
         justify-content: center;
+        width: 100%;
     }
 
     .bet-container{
@@ -90,8 +104,12 @@
             padding: 9px;
             border: none;
             cursor: pointer;
-            flex-grow: 4;
             font-size: 18px;
+
+        }
+        & .coloured{
+            margin-top: 10px;
+            background-color: #ada161;
         }
     }
 </style>

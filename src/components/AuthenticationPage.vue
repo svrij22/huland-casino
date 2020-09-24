@@ -2,7 +2,7 @@
     <div class="content">
         <div class="bg"/>
         <canvas id="bg-canvas"></canvas>
-        <div class="container">
+        <div class="auth-container">
             <h3>
                 HULAND CASINO
             </h3>
@@ -111,7 +111,7 @@
         height: 100%;
     }
 
-    .container{
+    .auth-container{
         position: fixed;
         left: 0;
         right: 0;
