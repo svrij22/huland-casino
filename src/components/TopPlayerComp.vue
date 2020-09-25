@@ -48,17 +48,19 @@
     .player-container{
         margin: 30px 0px;
         border-radius: 6px;
-        width: 250px;
+        width: 200px;
         opacity: 0.8;
         max-width: 250px;
         background-color: #c4e8ef;
+
+        position: fixed;
     }
 
     .players{
         display: flex;
         flex-direction: column;
         margin: 20px 10px;
-        min-width: 190px;
+        min-width: 170px;
 
         & img{
             height: 25px;
