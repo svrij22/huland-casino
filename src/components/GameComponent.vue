@@ -1,14 +1,18 @@
 <template>
     <div class="game">
         <div class="game-container">
-            <div class="cards-object">
-                <img v-for="card in gamedata.dealerCards" :src="getCard(card.cardType, card.cardSuit, card.visible)" :key="card"/>
+            <div class="cards-object" :style="marginCardRight(gamedata.dealerCards)">
+                <div class="card-container" v-for="card in gamedata.dealerCards" :key="card">
+                    <img :src="getCard(card.cardType, card.cardSuit, card.visible)"/>
+                </div>
             </div>
             <span>{{dealerHandValue}}</span>
             <span>{{gameState}}</span>
             <span>{{playerHandValue}}</span>
-            <div class="cards-object">
-                <img v-for="card in gamedata.playerCards" :src="getCard(card.cardType, card.cardSuit, card.visible)" :key="card"/>
+            <div class="cards-object" :style="marginCardRight(gamedata.playerCards)">
+                <div  class="card-container"  v-for="card in gamedata.playerCards" :key="card">
+                    <img :src="getCard(card.cardType, card.cardSuit, card.visible)" />
+                </div>
             </div>
             <div class="button-container">
                 <button @click="playMove('hit')" v-if="canPlay('Hit')">Hit</button>
@@ -50,6 +54,11 @@
             },
             canPlay(move){
                 return this.gamedata?.playerOptions?.includes(move);
+            },
+            marginCardRight(cards){
+                let cardAmt = cards.length
+                let pxAmt = Math.pow(800, 1/(cardAmt*1))
+                return "margin-right: " + (80 + pxAmt) + "px;"
             }
         },
         computed: {
@@ -95,9 +104,23 @@
         }
     }
     .cards-object{
+
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+
+        overflow: visible;
+        height: 250px;
+
+        & .card-container{
+            min-width: 90px;
+        }
+
         & img {
-            max-height: 230px;
+            max-height: 250px;
             margin: 5px;
+
+            position: absolute;
         }
     }
 
