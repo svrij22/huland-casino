@@ -3,13 +3,20 @@
         <h2>Leaderboard</h2>
         <div class="players">
             <div class="player" v-for="player in pdata" :key="player">
-                <img src="../assets/user.webp">
-                {{player.username}}<br>
-                <img src="../assets/chip.png">
-                {{player.amount}}
+                <div>
+                    <img src="../assets/user.webp">
+                    {{player.username}}
+                </div>
+                <div>
+                    <img src="../assets/casino-chip.png">
+                    {{player.amount}}
+                </div>
+                <div>
+                    <img src="../assets/play.png">
+                    {{player.gamesPlayed}}
+                </div>
             </div>
         </div>
-        {{datatest}}
     </div>
 </template>
 
@@ -51,9 +58,10 @@
         display: flex;
         flex-direction: column;
         margin: 20px 10px;
+        min-width: 190px;
 
         & img{
-            width: 30px;
+            height: 25px;
         }
 
         & .player{

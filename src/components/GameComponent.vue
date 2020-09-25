@@ -96,8 +96,8 @@
     }
     .cards-object{
         & img {
-            max-height: 250px;
-            margin: 10px;
+            max-height: 230px;
+            margin: 5px;
         }
     }
 
