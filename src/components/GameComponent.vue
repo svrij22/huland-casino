@@ -58,7 +58,7 @@
             marginCardRight(cards){
                 let cardAmt = cards.length
                 let pxAmt = Math.pow(800, 1/(cardAmt*1))
-                return "margin-right: " + (80 + pxAmt) + "px;"
+                return "margin-right: " + (140 + pxAmt) + "px;"
             }
         },
         computed: {
