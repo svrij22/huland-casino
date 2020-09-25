@@ -19,7 +19,7 @@
                 <button @click="playMove('stand')" v-if="canPlay('Stand')">Stand</button>
                 <button @click="playMove('surrender')" v-if="canPlay('Surrender')">Surrender</button>
                 <button @click="playMove('double')" v-if="canPlay('Double')">Double</button>
-                <button @click="playMove('retry')" v-if="cantPlay">Retry</button>
+                <button @click="playMove('retry')" v-if="canPlay('Reset')">Retry</button>
             </div>
         </div>
     </div>
@@ -72,9 +72,6 @@
                 let state = this.gamedata?.gameState;
                 if (state === "Playing") return '';
                 return state;
-            },
-            cantPlay(){
-                return this.gamedata?.playerOptions?.length == 0;
             }
         }
     }
@@ -99,7 +96,7 @@
         width: 100%;
 
         & span{
-            font-size: 60px;
+            font-size: 40px;
             color: #535353;
         }
     }
