@@ -4,15 +4,15 @@
         <div class="players">
             <div class="player" v-for="player in pdata" :key="player">
                 <div>
-                    <img src="../assets/user.webp">
+                    <img src="../assets/old/user.webp">
                     {{player.username}}
                 </div>
                 <div>
-                    <img src="../assets/casino-chip.png">
+                    <img src="../assets/old/casino-chip.png">
                     {{player.amount}}
                 </div>
                 <div>
-                    <img src="../assets/play.png">
+                    <img src="../assets/old/play.png">
                     {{player.gamesPlayed}}
                 </div>
             </div>
