@@ -2,17 +2,20 @@
     <div>
         <!--Rule position and state-->
         <div v-for="(rule, position) in rules" :key="position">
-            <div class="rule-header form-group" >Rule {{position}}
+            <div class="rule-header form-group" ><b>Rule {{position}}</b>
                 <select v-model.lazy="rule.stateBefore" class="form-control">
                     <option v-for="state in states" :key="state">
                         {{state}}
                     </option>
                 </select>
+                <i class="fa fa-arrow-right"></i>
                 <select v-model.lazy="rule.stateAfter" class="form-control">
                     <option v-for="state in states" :key="state">
                         {{state}}
                     </option>
                 </select>
+                <button class="form-control btn btn-danger">Remove</button>
+                <button class="form-control btn btn-success" @click="updateRule(rule, position)" v-if="!isOriginal(position)">Apply</button>
             </div>
             <!--Rule content-->
             <div class="rule-content">
@@ -54,30 +57,23 @@
 
 <script>
     import axios from "axios";
+    import _ from 'lodash';
 
     export default {
         name: "RulesComponent",
         data: function(){
             return {
-                rules: {},
+                rules: [],
+                copy: [],
                 states: ['Playing', 'Standing', 'Bust', 'Blackjack', 'DealerWins', 'Push'],
                 separators: ['NONE', 'AND', 'OR'],
                 values: ['DEALERCARDVALUE', 'PLAYERCARDVALUE', 'DEALERCARDAMOUNT', 'PLAYERCARDAMOUNT'],
-                conditions: ['EQUALS', 'EQUALSLOWERTHAN', 'LOWERTHAN', 'EQUALSLOWERTHAN', 'GREATERTHAN']
+                conditions: ['EQUALS', 'EQUALSLOWERTHAN', 'LOWERTHAN', 'EQUALSLOWERTHAN', 'GREATERTHAN'],
+                unacceptedRules: {}
             }
         },
         mounted(){
-            axios({
-                url: this.$restip + "/rules/all",
-                method: 'get',
-                headers: {
-                    Authorization: localStorage.getItem("logintoken")
-                }
-            }).then((res) => {
-                this.rules = res.data.rules.rules;
-            }).catch(() => {
-                this.$router.push("/")
-            })
+            this.updateAll();
         },
         methods: {
             checkseparator(separator){
@@ -85,6 +81,41 @@
                     return "red-input"
                 }
                 return "";
+            },
+            updateAll(){
+                axios({
+                    url: this.$restip + "/rules/all",
+                    method: 'get',
+                    headers: {
+                        Authorization: localStorage.getItem("logintoken")
+                    }
+                }).then((res) => {
+                    this.rules = res.data.rules.rules;
+                    this.copy = _.cloneDeep(this.rules);
+                })
+            },
+            updateRule(rule, position){
+                axios({
+                    url: this.$restip + "/rules/update",
+                    method: 'post',
+                    headers: {
+                        Authorization: localStorage.getItem("logintoken")
+                    },
+                    data: {
+                        position: position,
+                        conditionList: rule.conditionList,
+                        stateBefore: rule.stateBefore,
+                        stateAfter: rule.stateAfter
+                    }
+                }).then((res) => {
+                    console.log(res)
+                    this.updateAll();
+                }).catch(() =>{
+
+                })
+            },
+            isOriginal(position){
+                return _.isEqual(this.copy[position], this.rules[position])
             }
         }
     }
@@ -92,24 +123,31 @@
 
 <style lang="scss" scoped>
 
+    .fa-arrow-right{
+        margin-left: 15px;
+    }
     .rule-header{
-        padding: 10px;
+        padding: 5px;
         background-color: #a0c8d2;
         margin: 8px;
         border-radius: 6px;
-        font-size: 30px;
+        font-size: 25px;
         text-align: left;
         display: flex;
         align-items: center;
 
-        & select{
+        & select, button {
             margin-left: 20px;
-            width: 200px;
+            max-width: 200px;
+        }
+
+        & b{
+            min-width: 80px;
         }
     }
 
     .rule-item{
-        padding: 5px;
+        padding: 2px;
         background-color: #b2c1c4;
         margin: 8px;
         border-radius: 6px;
@@ -124,6 +162,10 @@
         }
     }
 
+
+    .btn{
+        width: 130px;
+    }
     .red-input{
         background-color: #e7cbcb;
     }
