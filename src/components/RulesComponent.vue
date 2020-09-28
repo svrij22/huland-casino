@@ -1,5 +1,13 @@
 <template>
     <div>
+        <!--User data header-->
+        <header-component :userdata="userdata"/>
+
+        <!--Header-->
+        <div class="header-comp">
+            <h1>Rule editor</h1>
+            <button @click="resetAll" class="btn btn-warning">Reset</button>
+        </div>
         <!--Rule position and state-->
         <div v-for="(rule, position) in rules" :key="position">
             <div class="rule-header form-group" ><b>Rule {{position}}</b>
@@ -58,9 +66,11 @@
 <script>
     import axios from "axios";
     import _ from 'lodash';
+    import HeaderComponent from "@/components/HeaderComponent";
 
     export default {
         name: "RulesComponent",
+        components: {HeaderComponent},
         data: function(){
             return {
                 rules: [],
@@ -69,11 +79,13 @@
                 separators: ['NONE', 'AND', 'OR'],
                 values: ['DEALERCARDVALUE', 'PLAYERCARDVALUE', 'DEALERCARDAMOUNT', 'PLAYERCARDAMOUNT'],
                 conditions: ['EQUALS', 'EQUALSLOWERTHAN', 'LOWERTHAN', 'EQUALSLOWERTHAN', 'GREATERTHAN'],
-                unacceptedRules: {}
+                unacceptedRules: {},
+                userdata: {}
             }
         },
         mounted(){
             this.updateAll();
+            this.loadUserData();
         },
         methods: {
             checkseparator(separator){
@@ -114,9 +126,35 @@
 
                 })
             },
+            resetAll(){
+                axios({
+                    url: this.$restip + "/rules/reset",
+                    method: 'get',
+                    headers: {
+                        Authorization: localStorage.getItem("logintoken")
+                    }
+                }).then((res) => {
+                    this.rules = res.data.rules.rules;
+                    this.copy = _.cloneDeep(this.rules);
+                })
+            },
             isOriginal(position){
                 return _.isEqual(this.copy[position], this.rules[position])
-            }
+            },
+            loadUserData(){
+                this.hasToken = localStorage.getItem("logintoken").includes("Bearer")
+                if (!this.hasToken) this.$router.push("/")
+
+                axios({
+                    url: this.$restip + "/chips/balance",
+                    method: 'get',
+                    headers: {
+                        Authorization: localStorage.getItem("logintoken")
+                    }
+                }).then((res) => {
+                    this.userdata = res.data;
+                })
+            },
         }
     }
 </script>
@@ -160,6 +198,13 @@
             margin-left: 10px;
             width: 200px;
         }
+    }
+
+    .header-comp{
+        display: flex;
+        justify-content: space-between;
+        margin-top: 20px;
+        padding: 20px;
     }
 
 
