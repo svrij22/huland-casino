@@ -13,7 +13,7 @@
         </div>
         <!--Rule position and state-->
         <div v-for="(rule, position) in rules" :key="position">
-            <div class="rule-header form-group" ><b>Rule {{position}}</b>
+            <div class="rule-header form-group" :class="{'rule-error': unacceptedRules.includes(position)}"><b>Rule {{position}}</b>
                 <select v-model.lazy="rule.stateBefore" class="form-control">
                     <option v-for="state in states" :key="state">
                         {{state}}
@@ -85,7 +85,7 @@
                 separators: ['NONE', 'AND', 'OR'],
                 values: ['DEALERCARDVALUE', 'PLAYERCARDVALUE', 'DEALERCARDAMOUNT', 'PLAYERCARDAMOUNT'],
                 conditions: ['EQUALS', 'EQUALSLOWERTHAN', 'LOWERTHAN', 'EQUALSLOWERTHAN', 'GREATERTHAN'],
-                unacceptedRules: {},
+                unacceptedRules: [],
                 userdata: {}
             }
         },
@@ -131,9 +131,9 @@
                     this.copy[position] = _.cloneDeep(result);
                     /*Apparently Vue doesnt update without this*/
                     this.copy = _.cloneDeep(this.copy);
-
+                    _.remove(this.unacceptedRules, (n) => position==n)
                 }).catch(() =>{
-
+                    if (!this.unacceptedRules.includes(position)) this.unacceptedRules.push(position)
                 })
             },
             resetAll(){
@@ -184,6 +184,7 @@
     .fa-arrow-right{
         margin-left: 15px;
     }
+
     .rule-header{
         padding: 5px;
         background-color: #a0c8d2;
@@ -202,6 +203,10 @@
         & b{
             min-width: 80px;
         }
+    }
+
+    .rule-error{
+        background-color: #d2a0a0;
     }
 
     .rule-item{
