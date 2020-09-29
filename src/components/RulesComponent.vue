@@ -1,7 +1,5 @@
 <template>
     <div>
-        <!--User data header-->
-        <header-component :userdata="userdata"/>
 
         <!--Header-->
         <div class="header-comp">
@@ -25,7 +23,7 @@
                         {{state}}
                     </option>
                 </select>
-                <button class="form-control btn btn-danger">Remove</button>
+                <button class="form-control btn btn-danger" @click="removeRule(rule)">Remove</button>
                 <button class="form-control btn btn-success" @click="updateRule(rule, position)" v-if="!isOriginal(position)">Apply</button>
             </div>
             <!--Rule content-->
@@ -72,11 +70,9 @@
 <script>
     import axios from "axios";
     import _ from 'lodash';
-    import HeaderComponent from "@/components/HeaderComponent";
 
     export default {
         name: "RulesComponent",
-        components: {HeaderComponent},
         data: function(){
             return {
                 rules: [],
@@ -91,7 +87,6 @@
         },
         mounted(){
             this.updateAll();
-            this.loadUserData();
         },
         methods: {
             checkseparator(separator){
@@ -108,8 +103,24 @@
                         Authorization: localStorage.getItem("logintoken")
                     }
                 }).then((res) => {
-                    this.rules = res.data.rules.rules;
+                    this.rules = res.data.ruleBook.rules;
                     this.copy = _.cloneDeep(this.rules);
+                })
+            },
+            removeRule(rule){
+                axios({
+                    url: this.$restip + "/rules/remove",
+                    method: 'post',
+                    headers: {
+                        Authorization: localStorage.getItem("logintoken")
+                    },
+                    data: {
+                        conditionList: rule.conditionList,
+                        stateBefore: rule.stateBefore,
+                        stateAfter: rule.stateAfter
+                    }
+                }).then(() => {
+                    this.updateAll();
                 })
             },
             updateRule(rule, position){
@@ -150,20 +161,6 @@
             },
             isOriginal(position){
                 return _.isEqual(this.copy[position], this.rules[position])
-            },
-            loadUserData(){
-                this.hasToken = localStorage.getItem("logintoken").includes("Bearer")
-                if (!this.hasToken) this.$router.push("/")
-
-                axios({
-                    url: this.$restip + "/chips/balance",
-                    method: 'get',
-                    headers: {
-                        Authorization: localStorage.getItem("logintoken")
-                    }
-                }).then((res) => {
-                    this.userdata = res.data;
-                })
             },
             addCondition(rule){
                 rule.conditionList.push({
@@ -221,7 +218,8 @@
 
         & select, input{
             margin-left: 10px;
-            width: 200px;
+            max-width: 200px;
+            font-size: 13px;
         }
     }
 

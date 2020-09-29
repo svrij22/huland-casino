@@ -7,7 +7,7 @@
             </div>
             <div class="name-container">
                 <span>{{userdata.username | capitalize}}</span>
-                <button @click="$router.push('/rules')">Rules</button>
+                <button @click="$router.push('/config')">Config</button>
                 <button @click="logout">Log out</button>
             </div>
         </div>
