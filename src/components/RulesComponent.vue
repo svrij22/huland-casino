@@ -6,7 +6,10 @@
         <!--Header-->
         <div class="header-comp">
             <h1>Rule editor</h1>
-            <button @click="resetAll" class="btn btn-warning">Reset</button>
+            <div>
+                <button class="btn btn-dark" @click="addRule">Add rule</button>
+                <button @click="resetAll" class="btn btn-warning">Reset</button>
+            </div>
         </div>
         <!--Rule position and state-->
         <div v-for="(rule, position) in rules" :key="position">
@@ -57,6 +60,9 @@
                             </option>
                         </datalist>
                     </div>
+                </div>
+                <div class="add-rule">
+                    <button class="btn btn-dark" @click="addCondition(rule)">Add condition</button>
                 </div>
             </div>
         </div>
@@ -120,8 +126,12 @@
                         stateAfter: rule.stateAfter
                     }
                 }).then((res) => {
-                    console.log(res)
-                    this.updateAll();
+                    var result = _.omit(res.data, ['position']);
+                    this.rules[position] = result
+                    this.copy[position] = _.cloneDeep(result);
+                    /*Apparently Vue doesnt update without this*/
+                    this.copy = _.cloneDeep(this.copy);
+
                 }).catch(() =>{
 
                 })
@@ -155,6 +165,16 @@
                     this.userdata = res.data;
                 })
             },
+            addCondition(rule){
+                rule.conditionList.push({
+                    separator: "AND"
+                });
+            },
+            addRule(){
+                this.rules.push({
+                    conditionList: [{}]
+                });
+            }
         }
     }
 </script>
@@ -205,8 +225,18 @@
         justify-content: space-between;
         margin-top: 20px;
         padding: 20px;
+
+        & button{
+            padding: 10px;
+            margin: 8px;
+        }
     }
 
+    .add-rule{
+        display: flex;
+        justify-content: left;
+        margin-left: 10px;
+    }
 
     .btn{
         width: 130px;
