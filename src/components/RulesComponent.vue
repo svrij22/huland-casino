@@ -13,14 +13,14 @@
         <div v-for="(rule, position) in rules" :key="position">
             <div class="rule-header form-group" :class="{'rule-error': unacceptedRules.includes(position)}"><b>Rule {{position}}</b>
                 <select v-model.lazy="rule.stateBefore" class="form-control">
-                    <option v-for="state in states" :key="state">
-                        {{state}}
+                    <option v-for="state in states" :value="state.name" :key="state">
+                        {{state.name}}
                     </option>
                 </select>
                 <i class="fa fa-arrow-right"></i>
                 <select v-model.lazy="rule.stateAfter" class="form-control">
-                    <option v-for="state in states" :key="state">
-                        {{state}}
+                    <option v-for="state in states" :value="state.name" :key="state">
+                        {{state.name}}
                     </option>
                 </select>
                 <button class="form-control btn btn-danger" @click="removeRule(rule)">Remove</button>
@@ -103,6 +103,7 @@
                         Authorization: localStorage.getItem("logintoken")
                     }
                 }).then((res) => {
+                    this.states = res.data.gameLogic.states;
                     this.rules = res.data.ruleBook.rules;
                     this.copy = _.cloneDeep(this.rules);
                 })
@@ -155,7 +156,7 @@
                         Authorization: localStorage.getItem("logintoken")
                     }
                 }).then((res) => {
-                    this.rules = res.data.rules.rules;
+                    this.rules = res.data.ruleBook.rules;
                     this.copy = _.cloneDeep(this.rules);
                 })
             },
@@ -220,6 +221,7 @@
             margin-left: 10px;
             max-width: 200px;
             font-size: 13px;
+            font-weight: 800;
         }
     }
 
