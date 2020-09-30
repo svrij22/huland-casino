@@ -97,7 +97,7 @@
             },
             updateAll(){
                 axios({
-                    url: this.$restip + "/rules/all",
+                    url: this.$restip + "/config/all",
                     method: 'get',
                     headers: {
                         Authorization: localStorage.getItem("logintoken")

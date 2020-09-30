@@ -5,8 +5,9 @@
         <!--Rules editor-->
         <div class="container">
             <div class="button-menu">
-                <button class="btn btn-warning" @click="page='rules'">Rules</button>
-                <button class="btn btn-secondary" @click="page='sett'">Settings</button>
+                <button class="btn btn-secondary" @click="page='rules'">Rules</button>
+                <button class="btn btn-secondary" @click="page='settings'">Cards</button>
+                <button class="btn btn-secondary" @click="page='states'">States</button>
             </div>
             <rules-component v-if="page=='rules'" style="flex-grow: 1"/>
             <settings-component v-else/>
@@ -18,7 +19,7 @@
     import HeaderComponent from "@/components/HeaderComponent";
     import axios from "axios";
     import RulesComponent from "@/components/RulesComponent";
-    import SettingsComponent from "@/components/SettingsComponent";
+    import SettingsComponent from "@/components/CardEditorComponent";
     export default {
         name: "ConfigComponent",
         components: {SettingsComponent, RulesComponent, HeaderComponent},
