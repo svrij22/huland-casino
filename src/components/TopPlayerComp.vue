@@ -52,7 +52,7 @@
         opacity: 0.8;
         max-width: 250px;
         background-color: #c4e8ef;
-
+        z-index: 5;
         position: fixed;
     }
 

@@ -75,6 +75,7 @@
         margin-top: 100px;
         display: flex;
         flex-direction: column;
+        align-items: center;
 
         & span{
             color: #535353;
